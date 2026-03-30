@@ -24,7 +24,7 @@ export function provideStoreHydration() {
 
     if (!isBrowser()) {
       store.dispatch(ReportsActions.hydrate({ items: seedReportsSnapshot() }));
-      store.dispatch(AccountActions.hydrate({ userId: 'u-alex' }));
+      store.dispatch(AccountActions.hydrate({ userId: null }));
       return;
     }
 
@@ -53,8 +53,8 @@ export function provideStoreHydration() {
     if (uidRaw && SEED_USERS.some((u) => u.id === uidRaw)) {
       store.dispatch(AccountActions.hydrate({ userId: uidRaw }));
     } else {
-      store.dispatch(AccountActions.hydrate({ userId: 'u-alex' }));
-      localStorage.setItem(STORAGE_USER, 'u-alex');
+      store.dispatch(AccountActions.hydrate({ userId: null }));
+      localStorage.removeItem(STORAGE_USER);
     }
   });
 }

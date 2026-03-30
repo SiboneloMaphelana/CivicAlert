@@ -23,9 +23,6 @@ export class ModerationComponent {
   readonly queue = toSignal(this.reports.moderationQueue$, {
     initialValue: [] as CivicReport[]
   });
-  readonly isModerator = toSignal(this.account.isModerator$, {
-    initialValue: false
-  });
   readonly items = toSignal(this.reports.items$, {
     initialValue: [] as CivicReport[]
   });

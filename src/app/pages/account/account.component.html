@@ -100,50 +100,25 @@
         }
       </ul>
     </section>
-  } @else {
-    <p class="mt-6 text-sm text-slate-600 dark:text-slate-300">
-      You are signed out locally. Select a profile below to continue.
-    </p>
-  }
 
-  <section class="mt-10">
-    <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100">
-      Switch household profile
-    </h3>
-    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-      Demo only: picks who is acting on this device (saved locally).
+    <p class="mt-8 text-sm text-slate-600 dark:text-slate-400">
+      To use a different account, sign out and sign in again on the
+      <a
+        routerLink="/login"
+        class="font-medium text-teal-600 underline dark:text-teal-400"
+        >Sign in</a
+      >
+      page.
     </p>
-    <div
-      class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-      role="list"
-    >
-      @for (u of account.demoUsers; track u.id) {
-        <button
-          type="button"
-          role="listitem"
-          class="flex flex-col rounded-2xl border p-4 text-left transition hover:border-teal-500/60 hover:shadow-md dark:border-slate-700 dark:hover:border-teal-500/50"
-          [class.border-teal-500]="me()?.id === u.id"
-          [class.border-slate-200]="me()?.id !== u.id"
-          [class.ring-2]="me()?.id === u.id"
-          [class.ring-teal-500/30]="me()?.id === u.id"
-          (click)="account.signInAs(u.id)"
-        >
-          <span class="text-2xl">{{ u.avatarEmoji }}</span>
-          <span class="mt-2 font-medium text-slate-900 dark:text-white">{{
-            u.name
-          }}</span>
-          <span class="text-xs text-slate-500">{{ u.role }}</span>
-        </button>
-      }
-    </div>
+
     <button
       type="button"
-      class="mt-6 text-sm font-medium text-rose-600 hover:text-rose-500 dark:text-rose-400"
+      class="mt-4 text-sm font-medium text-rose-600 hover:text-rose-500 dark:text-rose-400"
       (click)="account.signOut()"
     >
-      Sign out (local only)
+      Sign out
     </button>
-  </section>
+  }
 
   <section
     class="mt-10 rounded-2xl border border-slate-200/80 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-900/80"

@@ -55,3 +55,19 @@ npm run serve:ssr:CivicAlert
 ```bash
 npm test
 ```
+
+## Demo sign-in
+
+Authentication is front-end only. Every demo user shares the same password; addresses are fictional **@gmail.com** placeholders (they are not real mailboxes).
+
+**Password (all accounts):** `CivicDemo#2026`
+
+| Display name | Gmail (sign-in) | Role |
+|--------------|-----------------|------|
+| Alex Rivera | civicalert.demo.alex@gmail.com | citizen |
+| Jordan Kim | civicalert.demo.jordan@gmail.com | citizen |
+| Sam Okonkwo | civicalert.demo.sam@gmail.com | citizen |
+| Morgan Reyes | civicalert.demo.morgan@gmail.com | citizen |
+| Taylor Brooks | civicalert.demo.taylor@gmail.com | citizen |
+| Casey Nguyen | civicalert.demo.casey@gmail.com | moderator |
+| Riley Patel | civicalert.demo.riley@gmail.com | moderator |

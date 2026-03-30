@@ -10,6 +10,11 @@ export const selectCurrentUserId = createSelector(
   (s) => s.currentUserId
 );
 
+export const selectIsAuthenticated = createSelector(
+  selectCurrentUserId,
+  (id) => id != null
+);
+
 export const selectCurrentUser = createSelector(
   selectCurrentUserId,
   (id): User | null => (id != null ? SEED_USERS.find((u) => u.id === id) ?? null : null)

@@ -6,7 +6,7 @@ export interface AccountState {
 }
 
 export const initialAccountState: AccountState = {
-  currentUserId: 'u-alex'
+  currentUserId: null
 };
 
 export const accountReducer = createReducer(

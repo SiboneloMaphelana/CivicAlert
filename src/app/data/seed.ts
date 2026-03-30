@@ -4,7 +4,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-alex',
     name: 'Alex Rivera',
-    email: 'alex.rivera@demo.local',
+    email: 'civicalert.demo.alex@gmail.com',
     role: 'citizen',
     ward: 'Ward 4',
     avatarEmoji: '🧑‍💻',
@@ -13,7 +13,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-jordan',
     name: 'Jordan Kim',
-    email: 'jordan.kim@demo.local',
+    email: 'civicalert.demo.jordan@gmail.com',
     role: 'citizen',
     ward: 'Ward 2',
     avatarEmoji: '🚴',
@@ -22,7 +22,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-sam',
     name: 'Sam Okonkwo',
-    email: 'sam.okonkwo@demo.local',
+    email: 'civicalert.demo.sam@gmail.com',
     role: 'citizen',
     ward: 'Ward 7',
     avatarEmoji: '🏘️',
@@ -31,7 +31,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-morgan',
     name: 'Morgan Reyes',
-    email: 'morgan.reyes@demo.local',
+    email: 'civicalert.demo.morgan@gmail.com',
     role: 'citizen',
     ward: 'Ward 1',
     avatarEmoji: '🌳',
@@ -40,7 +40,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-taylor',
     name: 'Taylor Brooks',
-    email: 'taylor.brooks@demo.local',
+    email: 'civicalert.demo.taylor@gmail.com',
     role: 'citizen',
     ward: 'Ward 3',
     avatarEmoji: '🚌',
@@ -49,7 +49,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-casey',
     name: 'Casey Nguyen',
-    email: 'casey.nguyen@demo.local',
+    email: 'civicalert.demo.casey@gmail.com',
     role: 'moderator',
     ward: 'Citywide',
     avatarEmoji: '🛡️',
@@ -58,7 +58,7 @@ export const SEED_USERS: User[] = [
   {
     id: 'u-riley',
     name: 'Riley Patel',
-    email: 'riley.patel@demo.local',
+    email: 'civicalert.demo.riley@gmail.com',
     role: 'moderator',
     ward: 'Citywide',
     avatarEmoji: '📋',

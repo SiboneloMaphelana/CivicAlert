@@ -22,13 +22,6 @@ export class AccountFacade {
   readonly isModerator$: Observable<boolean> =
     this.store.select(selectIsModerator);
 
-  readonly demoUsers: readonly User[] = SEED_USERS;
-
-  signInAs(userId: string): void {
-    if (!SEED_USERS.some((u) => u.id === userId)) return;
-    this.store.dispatch(AccountActions.signIn({ userId }));
-  }
-
   signOut(): void {
     this.store.dispatch(AccountActions.signOut());
   }
