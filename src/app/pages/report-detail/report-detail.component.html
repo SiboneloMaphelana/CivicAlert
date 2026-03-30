@@ -1,0 +1,200 @@
+<div class="mx-auto max-w-3xl px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:pt-10">
+  @let v = vm();
+  @if (v.kind === 'notfound') {
+    <div
+      class="rounded-2xl border border-dashed border-slate-200 p-10 text-center dark:border-slate-700"
+    >
+      <h1 class="text-lg font-semibold text-slate-900 dark:text-white">
+        Report not found
+      </h1>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+        It may have been removed or the link is wrong.
+      </p>
+      <a
+        routerLink="/"
+        class="mt-6 inline-block text-sm font-medium text-teal-600 hover:text-teal-500"
+        >Back to issues</a
+      >
+    </div>
+  } @else if (v.kind === 'hidden') {
+    <div
+      class="rounded-2xl border border-rose-200 bg-rose-50 p-8 dark:border-rose-900/60 dark:bg-rose-950/40"
+    >
+      <h1 class="text-lg font-semibold text-rose-950 dark:text-rose-100">
+        Removed from public view
+      </h1>
+      <p class="mt-2 text-sm text-rose-900/90 dark:text-rose-100/85">
+        This report is only visible to moderators.
+      </p>
+      <a
+        routerLink="/"
+        class="mt-6 inline-block text-sm font-medium text-teal-700 dark:text-teal-400"
+        >Back to issues</a
+      >
+    </div>
+  } @else if (v.kind === 'ok') {
+    @if (v.report.status === 'duplicate' && v.primary; as primary) {
+      <div
+        class="mb-6 rounded-2xl border border-orange-200 bg-orange-50 p-4 dark:border-orange-900/50 dark:bg-orange-950/40"
+      >
+        <p class="text-sm font-medium text-orange-950 dark:text-orange-100">
+          Merged into another report
+        </p>
+        <p class="mt-1 text-sm text-orange-900/88 dark:text-orange-100/85">
+          Continue the conversation on the primary thread.
+        </p>
+        <a
+          class="mt-3 inline-flex text-sm font-semibold text-orange-900 underline dark:text-orange-100"
+          [routerLink]="['/report', primary.id]"
+          >Open {{ primary.title }}</a
+        >
+      </div>
+    } @else if (v.report.status === 'duplicate' && !v.primary) {
+      <div
+        class="mb-6 rounded-2xl border border-orange-200 bg-orange-50 p-4 dark:border-orange-900/50 dark:bg-orange-950/40"
+      >
+        <p class="text-sm text-orange-900 dark:text-orange-100">
+          This report was merged, but the primary thread is no longer
+          available.
+        </p>
+      </div>
+    }
+
+    <nav class="text-sm">
+      <a
+        routerLink="/"
+        class="font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400"
+        >← All issues</a
+      >
+    </nav>
+
+    @if (v.report.status === 'hidden') {
+      <div
+        class="mt-4 rounded-xl border border-slate-300 bg-slate-100 px-4 py-3 text-sm text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+      >
+        Removed from the public issues list. Only you (the author) and
+        moderators can still open this thread.
+      </div>
+    }
+
+    <article class="mt-6">
+      <div class="flex flex-wrap items-center gap-2">
+        <span
+          class="rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-800 dark:bg-teal-950/50 dark:text-teal-200"
+          >{{ v.report.category }}</span
+        >
+        <span
+          class="rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide"
+          [class]="statusChip(v.report.status)"
+        >
+          {{ citizenStatusLabel(v.report.status) }}</span
+        >
+      </div>
+      <h1
+        class="mt-4 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+      >
+        {{ v.report.title }}
+      </h1>
+      <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+        {{ v.report.locationLabel }} · Reported
+        {{ v.report.createdAt | date: 'medium' }} · by
+        {{ authorName(v.report.authorId) }}
+      </p>
+      <p
+        class="mt-6 whitespace-pre-wrap text-base leading-relaxed text-slate-800 dark:text-slate-200"
+      >
+        {{ v.report.body }}
+      </p>
+
+      @if (v.report.moderatorNote) {
+        <aside
+          class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/80"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Official update
+          </p>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-200">
+            {{ v.report.moderatorNote }}
+          </p>
+        </aside>
+      }
+
+      <div
+        class="mt-8 flex flex-col gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 dark:border-slate-700 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div>
+          <p class="text-sm text-slate-600 dark:text-slate-300">
+            <span
+              class="text-2xl font-semibold text-slate-900 dark:text-white"
+              >{{ reports.supportsCount(v.report) }}</span
+            >
+            neighbors said they have the same issue
+          </p>
+          <p class="mt-1 text-xs text-slate-500">
+            Last activity {{ v.report.lastUpdatedAt | date: 'short' }}
+          </p>
+        </div>
+        @if (me(); as profile) {
+          <div class="flex flex-wrap gap-2">
+            @if (
+              ['open', 'triaged', 'in_progress'].includes(v.report.status)
+            ) {
+              <button
+                type="button"
+                class="rounded-xl bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-500"
+                (click)="toggleSupport(v.report.id, profile.id)"
+              >
+                {{
+                  reports.userSupports(v.report, profile.id)
+                    ? 'Undo “same issue”'
+                    : 'Same issue as me'
+                }}
+              </button>
+            }
+            @if (v.report.authorId !== profile.id) {
+              <button
+                type="button"
+                class="rounded-xl border border-rose-200 px-4 py-2 text-sm font-medium text-rose-800 hover:bg-rose-50 dark:border-rose-900 dark:text-rose-300 dark:hover:bg-rose-950/50"
+                (click)="flag(v.report.id, profile.id)"
+              >
+                Flag for moderators
+              </button>
+            }
+          </div>
+        } @else {
+          <p class="text-sm text-slate-500">
+            <a routerLink="/account" class="font-medium text-teal-600 underline"
+              >Sign in</a
+            >
+            to support or flag.
+          </p>
+        }
+      </div>
+
+      @if (similar().length > 0 && v.report.status !== 'duplicate') {
+        <section class="mt-10">
+          <h2 class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            Similar open reports
+          </h2>
+          <p class="mt-1 text-xs text-slate-500">
+            Check before filing—your issue might already be listed.
+          </p>
+          <ul class="mt-4 space-y-2">
+            @for (s of similar(); track s.id) {
+              <li>
+                <a
+                  class="text-sm font-medium text-teal-700 hover:underline dark:text-teal-400"
+                  [routerLink]="['/report', s.id]"
+                  >{{ titleForReport(s.id) }}</a
+                >
+                <span class="text-xs text-slate-500">
+                  · {{ (s.score * 100) | number: '1.0-0' }}% match</span
+                >
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </article>
+  }
+</div>

@@ -1,59 +1,57 @@
 # CivicAlert
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
+## Product summary
 
-## Development server
+CivicAlert is a **neighborhood civic reporting** web app. Residents can browse and file issues, mark **same issue** support, and flag reports for moderator review. **Moderators** use a dedicated queue to triage items, change status, and leave official notes.
 
-To start a local development server, run:
+All data lives in **client-side demo state** (NgRx with optional local persistence). There is no real server API—use this repo to explore UX and workflows, not as a production backend.
 
-```bash
-ng serve
-```
+## Stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+| Area | Technology |
+|------|------------|
+| Framework | [Angular](https://angular.dev) 21 |
+| State | [NgRx](https://ngrx.io) Store (+ DevTools in dev) |
+| Styling | [Tailwind CSS](https://tailwindcss.com) 4 |
+| Rendering | Angular **SSR** + client hydration |
+| HTTP / SSR host | [Express](https://expressjs.com) 5 |
+| Unit tests | [Vitest](https://vitest.dev) (via Angular CLI) |
+| Language | TypeScript 5.9 |
 
-## Code scaffolding
+Tooling: Angular CLI 21, Prettier, PostCSS.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Setup
 
-```bash
-ng generate component component-name
-```
+**Requirements:** Node.js (LTS recommended) and **npm** 11+ (see `package.json` `packageManager`; enable with [Corepack](https://nodejs.org/api/corepack.html) if you pin versions).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+**Install dependencies:**
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+**Local development** (dev server with hydration):
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Open [http://localhost:4200/](http://localhost:4200/).
 
-For end-to-end (e2e) testing, run:
+**Production build** (output in `dist/CivicAlert/`):
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+**Run the built SSR server locally:**
 
-## Additional Resources
+```bash
+npm run serve:ssr:CivicAlert
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Unit tests:**
+
+```bash
+npm test
+```
