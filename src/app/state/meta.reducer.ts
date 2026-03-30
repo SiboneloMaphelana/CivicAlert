@@ -1,4 +1,5 @@
 import { ActionReducer, MetaReducer } from '@ngrx/store';
+import { dispatchAppNotice } from '../core/app-notice.service';
 import type { AppState } from './app.reducer';
 import { REPORTS_STORAGE_V2 } from './reports/reports.helpers';
 
@@ -28,7 +29,11 @@ export function persistAppMetaReducer(
         localStorage.removeItem(STORAGE_USER);
       }
     } catch {
-      /* ignore */
+      dispatchAppNotice({
+        tone: 'error',
+        message:
+          'Changes could not be saved in this browser. Your latest update may be lost after refresh.'
+      });
     }
     return next;
   };

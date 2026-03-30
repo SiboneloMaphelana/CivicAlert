@@ -3,6 +3,7 @@ import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { AppNoticeService } from '../../core/app-notice.service';
 import type { CivicReport, User } from '../../core/models';
 import { citizenStatusLabel } from '../../lib/report-status-label';
 import { AccountFacade } from '../../state/account/account.facade';
@@ -23,6 +24,7 @@ type DetailVm =
 export class ReportDetailComponent {
   readonly reports = inject(ReportsFacade);
   readonly account = inject(AccountFacade);
+  readonly notices = inject(AppNoticeService);
   readonly citizenStatusLabel = citizenStatusLabel;
 
   private readonly route = inject(ActivatedRoute);
@@ -72,7 +74,14 @@ export class ReportDetailComponent {
   }
 
   toggleSupport(reportId: string, userId: string): void {
-    this.reports.toggleSupport(reportId, userId);
+    const result = this.reports.toggleSupport(reportId, userId);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 
   flag(reportId: string, userId: string): void {
@@ -81,29 +90,34 @@ export class ReportDetailComponent {
     );
     if (!ok) return;
     const r = this.items().find((x) => x.id === reportId);
-    if (
-      !r ||
-      r.authorId === userId ||
-      r.inappropriateFlagUserIds.includes(userId)
-    ) {
-      window.alert('Already flagged or you cannot flag your own report.');
+    if (!r) {
+      this.notices.error('That report could not be found.');
       return;
     }
-    this.reports.flagInappropriate(reportId, userId);
+    const result = this.reports.flagInappropriate(reportId, userId);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 
   protected statusChip(status: string): string {
+    const base =
+      'rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide';
     const map: Record<string, string> = {
-      open: 'bg-sky-100 text-sky-900 dark:bg-sky-950/50 dark:text-sky-200',
-      triaged:
-        'bg-violet-100 text-violet-900 dark:bg-violet-950/50 dark:text-violet-200',
-      in_progress:
-        'bg-amber-100 text-amber-950 dark:bg-amber-950/50 dark:text-amber-100',
-      resolved:
-        'bg-emerald-100 text-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-200',
-      hidden: 'bg-slate-200 text-slate-700',
-      duplicate: 'bg-orange-100 text-orange-950 dark:bg-orange-950/40'
+      open: `${base} bg-[color:var(--st-open-bg)] text-[color:var(--st-open-fg)]`,
+      triaged: `${base} bg-[color:var(--st-triaged-bg)] text-[color:var(--st-triaged-fg)]`,
+      in_progress: `${base} bg-[color:var(--st-progress-bg)] text-[color:var(--st-progress-fg)]`,
+      resolved: `${base} bg-[color:var(--st-resolved-bg)] text-[color:var(--st-resolved-fg)]`,
+      hidden: `${base} bg-[color:var(--st-hidden-bg)] text-[color:var(--st-hidden-fg)]`,
+      duplicate: `${base} bg-[color:var(--st-dup-bg)] text-[color:var(--st-dup-fg)]`
     };
-    return map[status] ?? 'bg-slate-100 text-slate-800';
+    return (
+      map[status] ??
+      `${base} bg-[color:var(--st-hidden-bg)] text-[color:var(--st-hidden-fg)]`
+    );
   }
 }

@@ -64,10 +64,10 @@ Authentication is front-end only. Every demo user shares the same password; addr
 
 | Display name | Gmail (sign-in) | Role |
 |--------------|-----------------|------|
-| Alex Rivera | civicalert.demo.alex@gmail.com | citizen |
-| Jordan Kim | civicalert.demo.jordan@gmail.com | citizen |
-| Sam Okonkwo | civicalert.demo.sam@gmail.com | citizen |
-| Morgan Reyes | civicalert.demo.morgan@gmail.com | citizen |
-| Taylor Brooks | civicalert.demo.taylor@gmail.com | citizen |
-| Casey Nguyen | civicalert.demo.casey@gmail.com | moderator |
-| Riley Patel | civicalert.demo.riley@gmail.com | moderator |
+| Sipho Mthembu | civicalert.demo.sipho@gmail.com | citizen |
+| Thandiwe Ndlovu | civicalert.demo.thandi@gmail.com | citizen |
+| Pieter Botha | civicalert.demo.pieter@gmail.com | citizen |
+| Zahra Desai | civicalert.demo.zahra@gmail.com | citizen |
+| Kgotso Moloi | civicalert.demo.kgotso@gmail.com | citizen |
+| Lindiwe Dube | civicalert.demo.lindiwe@gmail.com | moderator |
+| André Fourie | civicalert.demo.andre@gmail.com | moderator |

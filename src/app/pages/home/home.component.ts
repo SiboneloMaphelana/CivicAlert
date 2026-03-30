@@ -6,6 +6,7 @@ import {
   DuplicateHint,
   ReportCardComponent
 } from '../../components/report-card/report-card.component';
+import { AppNoticeService } from '../../core/app-notice.service';
 import type { CivicReport, User } from '../../core/models';
 import { REPORT_CATEGORIES } from '../../data/categories';
 import { AccountFacade } from '../../state/account/account.facade';
@@ -23,6 +24,7 @@ type SortMode = 'new' | 'support' | 'updated';
 export class HomeComponent {
   readonly reports = inject(ReportsFacade);
   readonly account = inject(AccountFacade);
+  readonly notices = inject(AppNoticeService);
   private readonly router = inject(Router);
 
   readonly me = toSignal(this.account.currentUser$, {
@@ -122,11 +124,14 @@ export class HomeComponent {
       });
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     this.formError.set(null);
     this.toast.set(null);
     const u = this.me();
-    if (!u) return;
+    if (!u) {
+      this.formError.set('Sign in before filing a report.');
+      return;
+    }
     const title = this.draftTitle.trim();
     const body = this.draftBody.trim();
     const loc = this.draftLocation.trim();
@@ -144,20 +149,37 @@ export class HomeComponent {
       this.formError.set('Please describe a specific location.');
       return;
     }
-    const id = this.reports.addReport({
+    const result = this.reports.addReport({
       title,
       body,
       category: this.draftCategory,
       locationLabel: loc,
       authorId: u.id
     });
+    if (!result.ok || !result.data) {
+      this.formError.set(
+        result.ok ? 'The app could not create the report.' : result.message
+      );
+      return;
+    }
+    const reportId = result.data;
     this.draftTitle = '';
     this.draftBody = '';
     this.draftLocation = '';
-    this.toast.set('Report submitted. Taking you to the thread…');
-    setTimeout(() => {
-      void this.router.navigate(['/report', id]);
-      this.toast.set(null);
-    }, 400);
+    this.toast.set('Report submitted. Taking you to the thread...');
+    try {
+      const navigated = await this.router.navigate(['/report', reportId]);
+      if (!navigated) {
+        this.notices.error(
+          'The report was saved, but the app could not open the new thread automatically.'
+        );
+      }
+    } catch {
+      this.notices.error(
+        'The report was saved, but navigation to the new thread failed.'
+      );
+    } finally {
+      setTimeout(() => this.toast.set(null), 400);
+    }
   }
 }

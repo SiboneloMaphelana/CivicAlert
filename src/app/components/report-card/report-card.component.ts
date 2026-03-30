@@ -1,6 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AppNoticeService } from '../../core/app-notice.service';
 import type { CivicReport } from '../../core/models';
 import { citizenStatusLabel } from '../../lib/report-status-label';
 import { ReportsFacade } from '../../state/reports/reports.facade';
@@ -19,6 +20,7 @@ export interface DuplicateHint {
 })
 export class ReportCardComponent {
   protected readonly reports = inject(ReportsFacade);
+  protected readonly notices = inject(AppNoticeService);
 
   readonly report = input.required<CivicReport>();
   readonly authorLabel = input.required<string>();
@@ -42,7 +44,14 @@ export class ReportCardComponent {
   }
 
   protected onToggleSupport(userId: string): void {
-    this.reports.toggleSupport(this.report().id, userId);
+    const result = this.reports.toggleSupport(this.report().id, userId);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 
   protected onFlag(userId: string): void {
@@ -51,31 +60,31 @@ export class ReportCardComponent {
     );
     if (!ok) return;
     const r = this.report();
-    if (
-      r.authorId === userId ||
-      r.inappropriateFlagUserIds.includes(userId)
-    ) {
-      window.alert('You already flagged this report, or you cannot flag your own.');
+    const result = this.reports.flagInappropriate(r.id, userId);
+    if (!result.ok) {
+      this.notices.error(result.message);
       return;
     }
-    this.reports.flagInappropriate(r.id, userId);
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 
   protected statusClass(): string {
     const s = this.report().status;
+    const base =
+      'rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide';
     const map: Record<string, string> = {
-      open:
-        'bg-sky-50 text-sky-800 dark:bg-sky-950/50 dark:text-sky-200',
-      triaged:
-        'bg-violet-50 text-violet-800 dark:bg-violet-950/50 dark:text-violet-200',
-      in_progress:
-        'bg-amber-50 text-amber-900 dark:bg-amber-950/50 dark:text-amber-100',
-      resolved:
-        'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200',
-      hidden: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
-      duplicate:
-        'bg-orange-50 text-orange-900 dark:bg-orange-950/50 dark:text-orange-100'
+      open: `${base} bg-[color:var(--st-open-bg)] text-[color:var(--st-open-fg)]`,
+      triaged: `${base} bg-[color:var(--st-triaged-bg)] text-[color:var(--st-triaged-fg)]`,
+      in_progress: `${base} bg-[color:var(--st-progress-bg)] text-[color:var(--st-progress-fg)]`,
+      resolved: `${base} bg-[color:var(--st-resolved-bg)] text-[color:var(--st-resolved-fg)]`,
+      hidden: `${base} bg-[color:var(--st-hidden-bg)] text-[color:var(--st-hidden-fg)]`,
+      duplicate: `${base} bg-[color:var(--st-dup-bg)] text-[color:var(--st-dup-fg)]`
     };
-    return map[s] ?? 'bg-slate-100 text-slate-700';
+    return (
+      map[s] ??
+      `${base} bg-[color:var(--st-hidden-bg)] text-[color:var(--st-hidden-fg)]`
+    );
   }
 }

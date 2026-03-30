@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
+import { AppNoticeService } from '../../core/app-notice.service';
 import type { CivicReport, User } from '../../core/models';
 import { citizenStatusLabel } from '../../lib/report-status-label';
 import { AccountFacade } from '../../state/account/account.facade';
@@ -18,6 +19,7 @@ import { reportsAuthoredBy } from '../../state/reports/reports.helpers';
 export class AccountComponent {
   readonly account = inject(AccountFacade);
   readonly reports = inject(ReportsFacade);
+  readonly notices = inject(AppNoticeService);
   readonly citizenStatusLabel = citizenStatusLabel;
 
   readonly me = toSignal(this.account.currentUser$, {
@@ -35,4 +37,26 @@ export class AccountComponent {
     ),
     { initialValue: [] as CivicReport[] }
   );
+
+  signOut(): void {
+    const result = this.account.signOut();
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
+  }
+
+  resetDemoData(): void {
+    const result = this.reports.resetToSeed();
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
+  }
 }

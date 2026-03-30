@@ -1,7 +1,7 @@
 <div class="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:pt-10">
   @if (toast(); as t) {
     <div
-      class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-950 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-100"
+      class="app-notice app-notice--success mb-6 rounded-2xl border px-4 py-3 text-sm"
       role="status"
     >
       {{ t }}
@@ -9,20 +9,21 @@
   }
 
   <header
-    class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+    class="rounded-[2rem] border border-white/70 bg-[color:var(--panel)] px-6 py-7 shadow-[0_24px_60px_rgba(78,57,34,0.08)] sm:px-8 sm:py-9"
   >
-    <div>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div class="max-w-3xl">
       <p
-        class="text-xs font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400"
+        class="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--brand)]"
       >
         Community issues
       </p>
       <h1
-        class="mt-1 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl dark:text-white"
+        class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl"
       >
         Report & track neighborhood problems
       </h1>
-      <p class="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base dark:text-slate-300">
+      <p class="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">
         See what neighbors reported, add your voice with “same issue,” and
         follow official updates.
       </p>
@@ -30,24 +31,25 @@
     @if (me(); as _u) {
       <a
         routerLink="/account"
-        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow hover:bg-slate-800 dark:bg-teal-600 dark:hover:bg-teal-500"
+        class="inline-flex items-center justify-center self-start rounded-full bg-[color:var(--text)] px-5 py-3 text-sm font-semibold text-[color:var(--panel-strong)] shadow-[0_16px_30px_rgba(47,36,24,0.18)] hover:-translate-y-0.5 hover:opacity-90"
       >
         Account
       </a>
     } @else {
       <a
         routerLink="/login"
-        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow hover:bg-slate-800 dark:bg-teal-600 dark:hover:bg-teal-500"
+        class="inline-flex items-center justify-center self-start rounded-full bg-[color:var(--brand)] px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_30px_rgba(15,118,110,0.2)] hover:-translate-y-0.5 hover:bg-[color:var(--brand-hover)]"
       >
         Sign in
       </a>
     }
+    </div>
   </header>
 
   <section
-    class="mt-8 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6"
+    class="mt-8 rounded-[1.75rem] border border-white/75 bg-[color:var(--panel-strong)] p-4 shadow-[0_22px_50px_rgba(74,54,33,0.08)] sm:p-6"
   >
-    <h2 class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+    <h2 class="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--text)]">
       File a new report
     </h2>
     @if (me(); as user) {
@@ -57,17 +59,17 @@
       >
         @if (formError()) {
           <p
-            class="text-sm text-rose-600 sm:col-span-2 lg:col-span-3 dark:text-rose-400"
+            class="app-notice--error rounded-2xl border px-4 py-3 text-sm sm:col-span-2 lg:col-span-3"
           >
             {{ formError() }}
           </p>
         }
         <label class="block sm:col-span-2 lg:col-span-3">
-          <span class="text-xs font-medium text-slate-600 dark:text-slate-400"
+          <span class="text-xs font-medium text-[color:var(--muted)]"
             >Short title</span
           >
           <input
-            class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+            class="mt-1 w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-input)] px-4 py-3 text-sm text-[color:var(--text)] shadow-[inset_0_1px_2px_rgba(47,36,24,0.04)] outline-none focus:border-[color:var(--brand)] focus:ring-4 focus:ring-[color:var(--brand-soft)]"
             name="title"
             [(ngModel)]="draftTitle"
             autocomplete="off"
@@ -75,22 +77,22 @@
           />
         </label>
         <label class="block sm:col-span-2 lg:col-span-3">
-          <span class="text-xs font-medium text-slate-600 dark:text-slate-400"
+          <span class="text-xs font-medium text-[color:var(--muted)]"
             >What happened?</span
           >
           <textarea
-            class="mt-1 min-h-[100px] w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+            class="mt-1 min-h-[120px] w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-input)] px-4 py-3 text-sm text-[color:var(--text)] shadow-[inset_0_1px_2px_rgba(47,36,24,0.04)] outline-none focus:border-[color:var(--brand)] focus:ring-4 focus:ring-[color:var(--brand-soft)]"
             name="body"
             [(ngModel)]="draftBody"
             maxlength="4000"
           ></textarea>
         </label>
         <label class="block">
-          <span class="text-xs font-medium text-slate-600 dark:text-slate-400"
+          <span class="text-xs font-medium text-[color:var(--muted)]"
             >Category</span
           >
           <select
-            class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+            class="mt-1 w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-input)] px-4 py-3 text-sm text-[color:var(--text)] outline-none focus:border-[color:var(--brand)] focus:ring-4 focus:ring-[color:var(--brand-soft)]"
             name="category"
             [(ngModel)]="draftCategory"
           >
@@ -100,11 +102,11 @@
           </select>
         </label>
         <label class="block sm:col-span-2">
-          <span class="text-xs font-medium text-slate-600 dark:text-slate-400"
+          <span class="text-xs font-medium text-[color:var(--muted)]"
             >Location (intersection, address, or landmark)</span
           >
           <input
-            class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+            class="mt-1 w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-input)] px-4 py-3 text-sm text-[color:var(--text)] shadow-[inset_0_1px_2px_rgba(47,36,24,0.04)] outline-none focus:border-[color:var(--brand)] focus:ring-4 focus:ring-[color:var(--brand-soft)]"
             name="loc"
             [(ngModel)]="draftLocation"
             maxlength="200"
@@ -113,15 +115,15 @@
         <div class="flex items-end sm:col-span-2 lg:col-span-3">
           <button
             type="submit"
-            class="w-full rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-teal-500 sm:w-auto"
+            class="w-full rounded-full bg-[color:var(--brand)] px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_30px_rgba(15,118,110,0.2)] hover:-translate-y-0.5 hover:bg-[color:var(--brand-hover)] sm:w-auto"
           >
             Submit report
           </button>
         </div>
       </form>
     } @else {
-      <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
-        <a routerLink="/login" class="font-medium text-teal-600 underline"
+      <p class="mt-3 text-sm text-[color:var(--muted)]">
+        <a routerLink="/login" class="font-semibold text-[color:var(--brand)] underline decoration-[rgba(15,118,110,0.35)]"
           >Sign in</a
         >
         to file a report.
@@ -133,12 +135,12 @@
     class="mt-8 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between"
   >
     <div class="min-w-0 flex-1">
-      <label class="block text-xs font-medium text-slate-600 dark:text-slate-400">
+      <label class="block text-xs font-medium text-[color:var(--muted)]">
         Search
       </label>
       <input
         type="search"
-        class="mt-1 w-full max-w-md rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+        class="mt-1 w-full max-w-md rounded-full border border-[color:var(--line)] bg-[color:var(--panel-strong)] px-4 py-3 text-sm shadow-[0_10px_24px_rgba(74,54,33,0.06)] outline-none focus:border-[color:var(--brand)] focus:ring-4 focus:ring-[rgba(15,118,110,0.12)]"
         placeholder="Title, details, or place…"
         [ngModel]="search()"
         (ngModelChange)="search.set($event)"
@@ -148,16 +150,9 @@
       @for (s of statusOptions; track s.value) {
         <button
           type="button"
-          class="rounded-full border px-3 py-1 text-xs font-medium transition"
-          [class.border-teal-600]="statusFilter() === s.value"
-          [class.bg-teal-50]="statusFilter() === s.value"
-          [class.text-teal-800]="statusFilter() === s.value"
-          [class.dark:bg-teal-950/40]="statusFilter() === s.value"
-          [class.dark:text-teal-100]="statusFilter() === s.value"
-          [class.border-slate-200]="statusFilter() !== s.value"
-          [class.text-slate-600]="statusFilter() !== s.value"
-          [class.dark:border-slate-600]="statusFilter() !== s.value"
-          [class.dark:text-slate-300]="statusFilter() !== s.value"
+          class="rounded-full border px-4 py-2 text-xs font-semibold transition"
+          [class.app-pill-active]="statusFilter() === s.value"
+          [class.app-pill-inactive]="statusFilter() !== s.value"
           (click)="statusFilter.set(s.value)"
         >
           {{ s.label }}
@@ -173,16 +168,9 @@
       @for (c of categoryFilters; track c) {
         <button
           type="button"
-          class="rounded-full border px-3 py-1 text-xs font-medium transition"
-          [class.border-teal-600]="filterCat() === c"
-          [class.bg-teal-50]="filterCat() === c"
-          [class.text-teal-800]="filterCat() === c"
-          [class.dark:bg-teal-950/40]="filterCat() === c"
-          [class.dark:text-teal-100]="filterCat() === c"
-          [class.border-slate-200]="filterCat() !== c"
-          [class.text-slate-600]="filterCat() !== c"
-          [class.dark:border-slate-600]="filterCat() !== c"
-          [class.dark:text-slate-300]="filterCat() !== c"
+          class="rounded-full border px-4 py-2 text-xs font-semibold transition"
+          [class.app-pill-active]="filterCat() === c"
+          [class.app-pill-inactive]="filterCat() !== c"
           (click)="filterCat.set(c)"
         >
           {{ c }}
@@ -190,10 +178,10 @@
       }
     </div>
     <div class="flex flex-wrap items-center gap-3">
-      <label class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+      <label class="flex items-center gap-2 text-xs text-[color:var(--muted)]">
         <span>Sort</span>
         <select
-          class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs dark:border-slate-600 dark:bg-slate-950"
+          class="rounded-full border border-[color:var(--line)] bg-[color:var(--panel-strong)] px-3 py-2 text-xs font-medium outline-none focus:border-[color:var(--brand)]"
           [ngModel]="sortMode()"
           (ngModelChange)="sortMode.set($event)"
         >
@@ -205,7 +193,7 @@
       @if (isModerator()) {
         <a
           routerLink="/moderation"
-          class="inline-flex items-center justify-center rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold text-amber-950 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100"
+          class="inline-flex items-center justify-center rounded-full border border-[#efc7a4] bg-[#fff2e7] px-4 py-2 text-xs font-semibold text-[#9a541e] shadow-[0_12px_24px_rgba(201,120,50,0.1)] hover:bg-[#fde8d4]"
         >
           Queue ({{ moderationQueue().length }})
         </a>
@@ -229,7 +217,7 @@
       </div>
     } @empty {
       <p
-        class="col-span-full rounded-xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500 dark:border-slate-700"
+        class="col-span-full rounded-[1.75rem] border border-dashed border-[color:var(--line-strong)] bg-white/40 p-8 text-center text-sm text-[color:var(--muted)]"
       >
         No issues match these filters. Try clearing search or switching
         status.

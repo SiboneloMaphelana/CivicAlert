@@ -2,8 +2,213 @@
 
 @import 'tailwindcss';
 
+/**
+ * Theme: cool paper backgrounds + green-ink text (complements teal brand).
+ * Dark mode inverts to deep forest panels + mint-tinted text.
+ */
+@layer theme {
+  :root {
+    color-scheme: light;
+    /* Cool mist — pairs with teal without going cold-gray */
+    --page-bg: #ecf2ef;
+    --page-tint: #dfe8e4;
+    --panel: rgba(255, 255, 255, 0.91);
+    --panel-strong: #f7faf9;
+    --line: rgba(18, 42, 36, 0.13);
+    --line-strong: rgba(18, 42, 36, 0.22);
+    /* Body copy: green-ink on paper (~contrast-safe on --page-bg) */
+    --text: #10221c;
+    --muted: #4a5f56;
+    --brand: #0f766e;
+    --brand-hover: #0c655e;
+    --brand-soft: rgba(15, 118, 110, 0.12);
+    --accent: #b45309;
+    --accent-soft: rgba(180, 83, 9, 0.12);
+    --accent-ink: #9a3412;
+    --accent-strong: #c2410c;
+    /* Text on accent-strong buttons */
+    --on-accent: #ffffff;
+    --surface-input: #f7faf9;
+    /* Links mirror brand */
+    --link: var(--brand);
+    --link-hover: var(--brand-hover);
+    /* Danger */
+    --danger: #be123c;
+    --danger-soft: rgba(190, 18, 60, 0.1);
+    --danger-ink: #881337;
+    --danger-border: rgba(190, 18, 60, 0.35);
+    /* Success / resolve */
+    --success: #047857;
+    --success-soft: rgba(4, 120, 87, 0.12);
+    /* Info surfaces (duplicate / warning callouts) */
+    --warn-bg: rgba(234, 88, 12, 0.12);
+    --warn-ink: #9a3412;
+    --warn-border: rgba(234, 88, 12, 0.35);
+    /* Report status chips */
+    --st-open-bg: rgba(14, 165, 233, 0.14);
+    --st-open-fg: #0a5f7a;
+    --st-triaged-bg: rgba(124, 58, 237, 0.14);
+    --st-triaged-fg: #5b21b6;
+    --st-progress-bg: var(--accent-soft);
+    --st-progress-fg: var(--accent-ink);
+    --st-resolved-bg: var(--success-soft);
+    --st-resolved-fg: var(--success);
+    --st-hidden-bg: color-mix(in srgb, var(--text) 9%, var(--panel-strong));
+    --st-hidden-fg: var(--muted);
+    --st-dup-bg: var(--warn-bg);
+    --st-dup-fg: var(--warn-ink);
+    /* Citizen role chip (non-moderator) */
+    --role-citizen-bg: rgba(14, 165, 233, 0.12);
+    --role-citizen-fg: #0a5f7a;
+    --role-mod-bg: var(--accent-soft);
+    --role-mod-fg: var(--accent-ink);
+    /* Neutral pills */
+    --pill-bg: color-mix(in srgb, var(--text) 7%, var(--panel-strong));
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+         color-scheme: dark;
+         --page-bg: #0c1210;
+         --page-tint: #080d0b;
+         --panel: rgba(22, 32, 28, 0.94);
+         --panel-strong: #141f1b;
+         --line: rgba(232, 244, 239, 0.11);
+         --line-strong: rgba(232, 244, 239, 0.2);
+         /* Light mint on deep green — complements saturated links */
+         --text: #e8f2ed;
+         --muted: #94ad9f;
+         --brand: #2dd4bf;
+         --brand-hover: #5eead4;
+         --brand-soft: rgba(45, 212, 191, 0.14);
+         --accent: #fbbf24;
+         --accent-soft: rgba(251, 191, 36, 0.14);
+         --accent-ink: #fde68a;
+         --accent-strong: #fcd34d;
+         --on-accent: #1c1917;
+         --surface-input: #141f1b;
+         --link: var(--brand);
+         --link-hover: var(--brand-hover);
+         --danger: #fb7185;
+         --danger-soft: rgba(251, 113, 133, 0.12);
+         --danger-ink: #fecdd3;
+         --danger-border: rgba(251, 113, 133, 0.35);
+         --success: #34d399;
+         --success-soft: rgba(52, 211, 153, 0.14);
+         --warn-bg: rgba(251, 146, 60, 0.16);
+         --warn-ink: #ffedd5;
+         --warn-border: rgba(251, 146, 60, 0.35);
+         --st-open-bg: rgba(56, 189, 248, 0.16);
+         --st-open-fg: #bae6fd;
+         --st-triaged-bg: rgba(167, 139, 250, 0.18);
+         --st-triaged-fg: #e9d5ff;
+         --st-progress-bg: var(--accent-soft);
+         --st-progress-fg: var(--accent-ink);
+         --st-resolved-bg: var(--success-soft);
+         --st-resolved-fg: #a7f3d0;
+         --st-hidden-bg: color-mix(in srgb, var(--text) 12%, var(--panel-strong));
+         --st-hidden-fg: var(--muted);
+         --st-dup-bg: var(--warn-bg);
+         --st-dup-fg: var(--warn-ink);
+         --role-citizen-bg: rgba(56, 189, 248, 0.16);
+         --role-citizen-fg: #bae6fd;
+         --role-mod-bg: var(--accent-soft);
+         --role-mod-fg: var(--accent-ink);
+         --pill-bg: color-mix(in srgb, var(--text) 14%, var(--panel-strong));
+    }
+  }
+}
+
 @layer base {
+  html {
+    background:
+      radial-gradient(
+        circle at 18% 0%,
+        rgba(255, 255, 255, 0.45),
+        transparent 42%
+      ),
+      linear-gradient(165deg, var(--page-bg), var(--page-tint));
+    color: var(--text);
+  }
+
   body {
     @apply m-0 antialiased;
+    background: transparent;
+    color: var(--text);
+    font-family:
+      "Plus Jakarta Sans", "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--brand) 32%, transparent);
+    color: var(--text);
+  }
+}
+
+@layer components {
+  .app-pill-active {
+    background: var(--brand-soft);
+    color: var(--brand);
+    border-color: transparent;
+    box-shadow:
+      0 10px 20px color-mix(in srgb, var(--brand) 18%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--brand) 22%, transparent);
+  }
+
+  .app-pill-inactive {
+    background: color-mix(in srgb, var(--panel-strong) 85%, white);
+    color: var(--muted);
+    border-color: var(--line);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .app-pill-inactive {
+      background: color-mix(in srgb, var(--panel-strong) 55%, var(--page-bg));
+    }
+  }
+
+  .app-notice {
+    box-shadow: 0 12px 28px rgba(18, 42, 36, 0.08);
+  }
+
+  .app-notice--success {
+    border-color: color-mix(in srgb, var(--success) 45%, var(--line));
+    background: var(--success-soft);
+    color: var(--success);
+  }
+
+  .app-notice--error {
+    border-color: var(--danger-border);
+    background: var(--danger-soft);
+    color: var(--danger-ink);
+  }
+
+  .app-notice--warning {
+    border-color: var(--warn-border);
+    background: var(--warn-bg);
+    color: var(--warn-ink);
+  }
+
+  .app-notice--info {
+    border-color: color-mix(in srgb, var(--brand) 35%, var(--line));
+    background: var(--brand-soft);
+    color: var(--brand);
   }
 }

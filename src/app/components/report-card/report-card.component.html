@@ -1,9 +1,9 @@
 <article
-  class="flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:p-5 dark:border-slate-700/80 dark:bg-slate-900 dark:ring-slate-800"
+  class="flex h-full flex-col rounded-[1.6rem] border border-white/80 bg-[color:var(--panel-strong)] p-4 shadow-[0_18px_42px_rgba(74,54,33,0.08)] ring-1 ring-[rgba(255,255,255,0.55)] sm:p-5"
 >
   <div class="mb-3 flex flex-wrap items-start justify-between gap-2">
     <span
-      class="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-800 dark:bg-teal-950/60 dark:text-teal-200"
+      class="inline-flex items-center rounded-full bg-[color:var(--brand-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--brand)]"
     >
       {{ report().category }}
     </span>
@@ -14,21 +14,21 @@
       {{ statusLabel() }}
     </span>
   </div>
-  <h3 class="text-base font-semibold leading-snug text-slate-900 dark:text-slate-50">
+  <h3 class="text-base font-semibold leading-snug text-[color:var(--text)]">
     <a
       [routerLink]="['/report', report().id]"
-      class="hover:text-teal-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:text-teal-300"
+      class="hover:text-[color:var(--brand)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand)]"
     >
       {{ report().title }}
     </a>
   </h3>
-  <p class="mt-2 line-clamp-3 flex-1 text-sm text-slate-600 dark:text-slate-300">
+  <p class="mt-2 line-clamp-3 flex-1 text-sm leading-6 text-[color:var(--muted)]">
     {{ report().body }}
   </p>
   <div
-    class="mt-3 flex flex-col gap-1 text-xs text-slate-500 dark:text-slate-400 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3"
+    class="mt-3 flex flex-col gap-1 text-xs text-[color:var(--muted)] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3"
   >
-    <span class="font-medium text-slate-600 dark:text-slate-300">{{
+    <span class="font-medium text-[color:var(--text)]">{{
       report().locationLabel
     }}</span>
     <span class="hidden sm:inline" aria-hidden="true">·</span>
@@ -36,26 +36,26 @@
     <span class="hidden sm:inline" aria-hidden="true">·</span>
     <span>by {{ authorLabel() }}</span>
   </div>
-  <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">
-    <span class="font-medium text-slate-800 dark:text-slate-200">{{
+  <p class="mt-2 text-xs text-[color:var(--muted)]">
+    <span class="font-medium text-[color:var(--text)]">{{
       reports.supportsCount(report())
     }}</span>
     neighbors marked this as the same issue
   </p>
   @if (duplicateHints().length > 0) {
     <div
-      class="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100"
+      class="mt-3 rounded-2xl border border-[color:var(--warn-border)] bg-[color:var(--warn-bg)] px-3 py-3 text-xs text-[color:var(--warn-ink)]"
     >
       <p class="font-medium">Similar open reports</p>
       <ul class="mt-1 list-inside list-disc space-y-0.5">
         @for (h of duplicateHints(); track h.id) {
           <li>
             <a
-              class="underline decoration-amber-800/40 hover:text-amber-900 dark:hover:text-amber-50"
+              class="underline decoration-[color:var(--warn-border)] hover:opacity-80"
               [routerLink]="['/report', h.id]"
               >{{ h.title }}</a
             >
-            <span class="text-amber-800/70 dark:text-amber-200/70">
+            <span class="opacity-80">
               ({{ (h.score * 100) | number: '1.0-0' }}% match)</span
             >
           </li>
@@ -65,17 +65,17 @@
   }
   @if (modNoteVisible()) {
     <p
-      class="mt-2 rounded-md bg-slate-50 px-2 py-1.5 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+      class="mt-2 rounded-2xl border border-[color:var(--line)] bg-[color:var(--panel-strong)] px-3 py-2 text-xs text-[color:var(--muted)]"
     >
-      <span class="font-medium text-slate-700 dark:text-slate-200">Update:</span>
+      <span class="font-medium text-[color:var(--text)]">Update:</span>
       {{ report().moderatorNote }}
     </p>
   }
   <div
-    class="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3 dark:border-slate-800"
+    class="mt-4 flex flex-wrap items-center gap-2 border-t border-[color:var(--line)] pt-4"
   >
     <a
-      class="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 dark:bg-teal-700 dark:hover:bg-teal-600"
+      class="rounded-full bg-[color:var(--text)] px-4 py-2 text-xs font-semibold text-[color:var(--panel-strong)] hover:-translate-y-0.5 hover:opacity-90"
       [routerLink]="['/report', report().id]"
     >
       View & support
@@ -83,7 +83,7 @@
     @if (currentUserId(); as uid) {
       <button
         type="button"
-        class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+        class="rounded-full border border-[color:var(--line)] bg-white/70 px-4 py-2 text-xs font-semibold text-[color:var(--muted)] hover:bg-white"
         (click)="onToggleSupport(uid)"
       >
         {{ reports.userSupports(report(), uid) ? 'Undo same issue' : 'Same issue' }}
@@ -91,7 +91,7 @@
       @if (report().authorId !== uid) {
         <button
           type="button"
-          class="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-medium text-rose-800 hover:bg-rose-50 dark:border-rose-900 dark:text-rose-300 dark:hover:bg-rose-950/50"
+          class="rounded-full border border-[color:var(--danger-border)] bg-[color:var(--danger-soft)] px-4 py-2 text-xs font-semibold text-[color:var(--danger-ink)] hover:opacity-90"
           (click)="onFlag(uid)"
         >
           Flag for review

@@ -1,27 +1,29 @@
 <div class="mx-auto max-w-md px-4 pb-16 pt-10 sm:px-6 lg:px-8">
   <div class="text-center">
     <p
-      class="text-xs font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400"
+      class="text-xs font-semibold uppercase tracking-wider text-[color:var(--brand)]"
     >
       Sign in
     </p>
     <h1
-      class="mt-1 text-2xl font-semibold tracking-tight text-slate-900 dark:text-white"
+      class="mt-1 text-2xl font-semibold tracking-tight text-[color:var(--text)]"
     >
       CivicAlert
     </h1>
-    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
-      <span class="font-medium text-slate-700 dark:text-slate-300">Alerts by your neighbors, for your neighbors.</span>.
+    <p class="mt-2 text-sm text-[color:var(--muted)]">
+      <span class="font-medium text-[color:var(--text)]"
+        >Alerts by your neighbors, for your neighbors.</span
+      >
     </p>
   </div>
 
   <form
-    class="mt-8 flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+    class="mt-8 flex flex-col gap-4 rounded-2xl border border-[color:var(--line)] bg-[color:var(--panel)] p-6 shadow-[0_18px_40px_rgba(18,42,36,0.06)]"
     (ngSubmit)="submit()"
   >
     @if (error(); as err) {
       <p
-        class="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-800 dark:bg-rose-950/50 dark:text-rose-200"
+        class="rounded-lg border border-[color:var(--danger-border)] bg-[color:var(--danger-soft)] px-3 py-2 text-sm text-[color:var(--danger-ink)]"
         role="alert"
       >
         {{ err }}
@@ -29,21 +31,19 @@
     }
 
     <label class="block">
-      <span class="text-xs font-medium text-slate-600 dark:text-slate-400"
-        >Email</span
-      >
+      <span class="text-xs font-medium text-[color:var(--muted)]">Email</span>
       <input
         type="email"
         name="email"
         required
         autocomplete="username"
         [(ngModel)]="email"
-        class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+        class="mt-1 w-full rounded-lg border border-[color:var(--line)] bg-[color:var(--surface-input)] px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand-soft)]"
       />
     </label>
 
     <label class="block">
-      <span class="text-xs font-medium text-slate-600 dark:text-slate-400"
+      <span class="text-xs font-medium text-[color:var(--muted)]"
         >Password</span
       >
       <input
@@ -52,13 +52,13 @@
         required
         autocomplete="current-password"
         [(ngModel)]="password"
-        class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-950"
+        class="mt-1 w-full rounded-lg border border-[color:var(--line)] bg-[color:var(--surface-input)] px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand-soft)]"
       />
     </label>
 
     <button
       type="submit"
-      class="rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-teal-500 disabled:opacity-60"
+      class="rounded-xl bg-[color:var(--brand)] px-4 py-2.5 text-sm font-medium text-white hover:bg-[color:var(--brand-hover)] disabled:opacity-60"
       [disabled]="busy()"
     >
       {{ busy() ? 'Signing in…' : 'Sign in' }}
@@ -68,7 +68,7 @@
   <p class="mt-6 text-center text-sm">
     <a
       routerLink="/"
-      class="font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400"
+      class="font-medium text-[color:var(--link)] hover:text-[color:var(--link-hover)]"
     >
       ← Back to issues
     </a>

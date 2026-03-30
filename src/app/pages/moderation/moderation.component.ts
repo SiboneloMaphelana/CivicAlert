@@ -3,7 +3,8 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import type { CivicReport, User } from '../../core/models';
+import { AppNoticeService } from '../../core/app-notice.service';
+import type { CivicReport, ReportStatus, User } from '../../core/models';
 import { citizenStatusLabel } from '../../lib/report-status-label';
 import { AccountFacade } from '../../state/account/account.facade';
 import { ReportsFacade } from '../../state/reports/reports.facade';
@@ -18,6 +19,7 @@ import { findPotentialDuplicates } from '../../state/reports/reports.helpers';
 export class ModerationComponent {
   readonly reports = inject(ReportsFacade);
   readonly account = inject(AccountFacade);
+  readonly notices = inject(AppNoticeService);
   readonly citizenStatusLabel = citizenStatusLabel;
 
   readonly queue = toSignal(this.reports.moderationQueue$, {
@@ -43,7 +45,10 @@ export class ModerationComponent {
 
   markDup(reportId: string, primaryRaw: string | undefined): void {
     const primary = primaryRaw?.trim();
-    if (!primary) return;
+    if (!primary) {
+      this.notices.error('Enter a primary report ID before merging.');
+      return;
+    }
     if (
       !window.confirm(
         'Merge this report into the primary thread? Residents will only see one issue.'
@@ -51,12 +56,23 @@ export class ModerationComponent {
     ) {
       return;
     }
-    this.reports.markDuplicate(reportId, primary);
+    const result = this.reports.markDuplicate(reportId, primary);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    this.customPrimary[reportId] = '';
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 
   fork(reportId: string): void {
     const u = this.me();
-    if (!u) return;
+    if (!u) {
+      this.notices.error('Sign in as a moderator before creating a follow-up report.');
+      return;
+    }
     if (
       !window.confirm(
         'Create a new open report with this content for a separate work order?'
@@ -64,7 +80,14 @@ export class ModerationComponent {
     ) {
       return;
     }
-    this.reports.duplicateReportAsNew(reportId, u.id);
+    const result = this.reports.duplicateReportAsNew(reportId, u.id);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 
   hide(reportId: string): void {
@@ -75,6 +98,24 @@ export class ModerationComponent {
     ) {
       return;
     }
-    this.reports.hideReport(reportId);
+    const result = this.reports.hideReport(reportId);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
+  }
+
+  setStatus(reportId: string, status: ReportStatus, note?: string): void {
+    const result = this.reports.setStatus(reportId, status, note);
+    if (!result.ok) {
+      this.notices.error(result.message);
+      return;
+    }
+    if (result.message) {
+      this.notices.success(result.message);
+    }
   }
 }
